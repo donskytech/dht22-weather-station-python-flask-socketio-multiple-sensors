@@ -1,17 +1,15 @@
 import json
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO
-from random import random
 from threading import Lock
-from datetime import datetime
 from dht22_module import DHT22Module
-
-# import board
+import board
+import adafruit_dht
 
 # dht22_module = DHT22Module(board.D18)
-dht22_module_1 = DHT22Module(1)
-dht22_module_2 = DHT22Module(2)
-dht22_module_3 = DHT22Module(3)
+dht22_module_1 = DHT22Module(1, board.D2)
+dht22_module_2 = DHT22Module(2, board.D3, adafruit_dht.DHT11)
+dht22_module_3 = DHT22Module(3, board.D4)
 
 thread = None
 thread_lock = Lock()
