@@ -3,8 +3,12 @@ import time
 
 
 class DHT22Module:
-    def __init__(self, pin, type=adafruit_dht.DHT22):
+    def __init__(self, id, pin, type=adafruit_dht.DHT22):
+        self.id = id
         self.dht_device = type(pin)
+
+    def get_id(self):
+        return self.id
 
     def get_sensor_readings(self):
         # try reading the DHT sensor 5 times
