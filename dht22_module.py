@@ -31,7 +31,12 @@
 
 import random
 
-
 class DHT22Module:
+    def __init__(self, id):
+        self.id = id
+
+    def get_id(self):
+        return self.id
+
     def get_sensor_readings(self):
         return random.randint(20, 50), random.randint(50, 100)

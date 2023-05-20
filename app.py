@@ -9,10 +9,18 @@ from dht22_module import DHT22Module
 # import board
 
 # dht22_module = DHT22Module(board.D18)
-dht22_module = DHT22Module()
+dht22_module_1 = DHT22Module(1)
+dht22_module_2 = DHT22Module(2)
+dht22_module_3 = DHT22Module(3)
 
-thread = None
-thread_lock = Lock()
+thread_1 = None
+thread_lock_1 = Lock()
+
+thread_2 = None
+thread_lock_2 = Lock()
+
+thread_3 = None
+thread_lock_3 = Lock()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "donsky!"
@@ -23,17 +31,40 @@ Background Thread
 """
 
 
-def background_thread():
+def background_thread_1():
     while True:
-        temperature, humidity = dht22_module.get_sensor_readings()
+        # DHT 1
+        temperature, humidity = dht22_module_1.get_sensor_readings()
         sensor_readings = {
+            "id": dht22_module_1.get_id(),
             "temperature": temperature,
             "humidity": humidity,
         }
-        sensor_json = json.dumps(sensor_readings)
+        socketio.emit("updateSensorData", json.dumps(sensor_readings))
 
-        socketio.emit("updateSensorData", sensor_json)
-        socketio.sleep(3)
+
+def background_thread_2():
+    while True:
+        # DHT2
+        temperature, humidity = dht22_module_2.get_sensor_readings()
+        sensor_readings = {
+            "id": dht22_module_2.get_id(),
+            "temperature": temperature,
+            "humidity": humidity,
+        }
+        socketio.emit("updateSensorData", json.dumps(sensor_readings))
+
+
+def background_thread_3():
+    while True:
+        # DHT2
+        temperature, humidity = dht22_module_3.get_sensor_readings()
+        sensor_readings = {
+            "id": dht22_module_3.get_id(),
+            "temperature": temperature,
+            "humidity": humidity,
+        }
+        socketio.emit("updateSensorData", json.dumps(sensor_readings))
 
 
 """
@@ -53,12 +84,22 @@ Decorator for connect
 
 @socketio.on("connect")
 def connect():
-    global thread
+    global thread_1
+    global thread_2
+    global thread_3
     print("Client connected")
 
-    with thread_lock:
-        if thread is None:
-            thread = socketio.start_background_task(background_thread)
+    with thread_lock_1:
+        if thread_1 is None:
+            thread_1 = socketio.start_background_task(background_thread_1)
+
+    with thread_lock_2:
+        if thread_2 is None:
+            thread_2 = socketio.start_background_task(background_thread_2)
+
+    with thread_lock_3:
+        if thread_3 is None:
+            thread_3 = socketio.start_background_task(background_thread_3)
 
 
 """
@@ -71,5 +112,5 @@ def disconnect():
     print("Client disconnected", request.sid)
 
 
-# if __name__ == "__main__":
-#     socketio.run(app, port=5000, host="0.0.0.0", debug=True)
+if __name__ == "__main__":
+    socketio.run(app, port=5000, host="0.0.0.0", debug=True)
