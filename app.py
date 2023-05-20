@@ -26,32 +26,35 @@ Background Thread
 def background_thread():
     while True:
         # DHT 1
-        temperature, humidity = dht22_module_1.get_sensor_readings()
-        sensor_readings = {
-            "id": dht22_module_1.get_id(),
-            "temperature": temperature,
-            "humidity": humidity,
-        }
-        socketio.emit("updateSensorData", json.dumps(sensor_readings))
-        socketio.sleep(1)
+        temperature, humidity = dht22_module_1.get_sensor_readings() or (None, None)
+        if temperature is not None or humidity is not None:
+            sensor_readings = {
+                "id": dht22_module_1.get_id(),
+                "temperature": temperature,
+                "humidity": humidity,
+            }
+            socketio.emit("updateSensorData", json.dumps(sensor_readings))
+            socketio.sleep(1)
         # DHT2
-        temperature, humidity = dht22_module_2.get_sensor_readings()
-        sensor_readings = {
-            "id": dht22_module_2.get_id(),
-            "temperature": temperature,
-            "humidity": humidity,
-        }
-        socketio.emit("updateSensorData", json.dumps(sensor_readings))
-        socketio.sleep(1)
+        temperature, humidity = dht22_module_2.get_sensor_readings() or (None, None)
+        if temperature is not None or humidity is not None:
+            sensor_readings = {
+                "id": dht22_module_2.get_id(),
+                "temperature": temperature,
+                "humidity": humidity,
+            }
+            socketio.emit("updateSensorData", json.dumps(sensor_readings))
+            socketio.sleep(1)
         # DHT3
-        temperature, humidity = dht22_module_3.get_sensor_readings()
-        sensor_readings = {
-            "id": dht22_module_3.get_id(),
-            "temperature": temperature,
-            "humidity": humidity,
-        }
-        socketio.emit("updateSensorData", json.dumps(sensor_readings))
-        socketio.sleep(1)
+        temperature, humidity = dht22_module_3.get_sensor_readings() or (None, None)
+        if temperature is not None or humidity is not None:
+            sensor_readings = {
+                "id": dht22_module_3.get_id(),
+                "temperature": temperature,
+                "humidity": humidity,
+            }
+            socketio.emit("updateSensorData", json.dumps(sensor_readings))
+            socketio.sleep(1)
 
 
 """
