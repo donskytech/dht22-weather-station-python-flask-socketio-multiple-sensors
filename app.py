@@ -6,10 +6,11 @@ from dht22_module import DHT22Module
 import board
 import adafruit_dht
 
-# dht22_module = DHT22Module(board.D18)
 dht22_module_1 = DHT22Module(1, board.D2)
 dht22_module_2 = DHT22Module(2, board.D3, adafruit_dht.DHT11)
 dht22_module_3 = DHT22Module(3, board.D4)
+
+dht_modules = [dht22_module_1, dht22_module_2, dht22_module_3]
 
 thread = None
 thread_lock = Lock()
@@ -25,36 +26,37 @@ Background Thread
 
 def background_thread():
     while True:
-        # DHT 1
-        temperature, humidity = dht22_module_1.get_sensor_readings() or (None, None)
-        if temperature is not None or humidity is not None:
-            sensor_readings = {
-                "id": dht22_module_1.get_id(),
-                "temperature": temperature,
-                "humidity": humidity,
-            }
-            socketio.emit("updateSensorData", json.dumps(sensor_readings))
-            socketio.sleep(1)
-        # DHT2
-        temperature, humidity = dht22_module_2.get_sensor_readings() or (None, None)
-        if temperature is not None or humidity is not None:
-            sensor_readings = {
-                "id": dht22_module_2.get_id(),
-                "temperature": temperature,
-                "humidity": humidity,
-            }
-            socketio.emit("updateSensorData", json.dumps(sensor_readings))
-            socketio.sleep(1)
-        # DHT3
-        temperature, humidity = dht22_module_3.get_sensor_readings() or (None, None)
-        if temperature is not None or humidity is not None:
-            sensor_readings = {
-                "id": dht22_module_3.get_id(),
-                "temperature": temperature,
-                "humidity": humidity,
-            }
-            socketio.emit("updateSensorData", json.dumps(sensor_readings))
-            socketio.sleep(1)
+        for dht in dht_modules:
+            # DHT 1
+            temperature, humidity = dht.get_sensor_readings() or (None, None)
+            if temperature is not None or humidity is not None:
+                sensor_readings = {
+                    "id": dht.get_id(),
+                    "temperature": temperature,
+                    "humidity": humidity,
+                }
+                socketio.emit("updateSensorData", json.dumps(sensor_readings))
+                socketio.sleep(1)
+        # # DHT2
+        # temperature, humidity = dht22_module_2.get_sensor_readings() or (None, None)
+        # if temperature is not None or humidity is not None:
+        #     sensor_readings = {
+        #         "id": dht22_module_2.get_id(),
+        #         "temperature": temperature,
+        #         "humidity": humidity,
+        #     }
+        #     socketio.emit("updateSensorData", json.dumps(sensor_readings))
+        #     socketio.sleep(1)
+        # # DHT3
+        # temperature, humidity = dht22_module_3.get_sensor_readings() or (None, None)
+        # if temperature is not None or humidity is not None:
+        #     sensor_readings = {
+        #         "id": dht22_module_3.get_id(),
+        #         "temperature": temperature,
+        #         "humidity": humidity,
+        #     }
+        #     socketio.emit("updateSensorData", json.dumps(sensor_readings))
+        #     socketio.sleep(1)
 
 
 """
@@ -64,7 +66,7 @@ Serve root index file
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", dht_modules=dht_modules)
 
 
 """

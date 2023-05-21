@@ -87,17 +87,21 @@
             </div>
           </div>
           <div class="row">
+            {%for dht in dht_modules%}
+
             <div class="col">
               <div
                 class="readings align-items-center justify-content-center border rounded-2 p-4"
               >
-                <h3>DHT22/DHT11 #1</h3>
+                <h3>DHT22/DHT11 #{{dht.get_id()}}</h3>
                 <div
                   class="box d-flex rounded-3 p-2 shadow align-items-center justify-content-center"
                 >
                   <div class="right-side">
                     <div class="box-topic">Temperature</div>
-                    <div class="number" id="temperature-1">35 C</div>
+                    <div class="number" id="temperature-{{dht.get_id()}}">
+                      0 C
+                    </div>
                   </div>
                   <span class="indicator material-symbols-outlined"
                     >device_thermostat</span
@@ -108,7 +112,7 @@
                 >
                   <div class="right-side">
                     <div class="box-topic">Humidity</div>
-                    <div class="number" id="humidity-1">40%</div>
+                    <div class="number" id="humidity-{{dht.get_id()}}">0%</div>
                   </div>
                   <span class="indicator material-symbols-outlined">
                     humidity_percentage
@@ -116,200 +120,61 @@
                 </div>
               </div>
             </div>
-            <div class="col">
-              <div
-                class="readings align-items-center justify-content-center border rounded-2 p-4"
-              >
-                <h3>DHT22/DHT11 #2</h3>
-                <div
-                  class="box d-flex rounded-3 p-2 shadow align-items-center justify-content-center"
-                >
-                  <div class="right-side">
-                    <div class="box-topic">Temperature</div>
-                    <div class="number" id="temperature-2">35 C</div>
-                  </div>
-                  <span class="indicator material-symbols-outlined"
-                    >device_thermostat</span
-                  >
-                </div>
-                <div
-                  class="box d-flex align-items-center justify-content-center rounded-3 p-1 shadow"
-                >
-                  <div class="right-side">
-                    <div class="box-topic">Humidity</div>
-                    <div class="number" id="humidity-2">40%</div>
-                  </div>
-                  <span class="indicator material-symbols-outlined">
-                    humidity_percentage
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div
-                class="readings align-items-center justify-content-center border rounded-2 p-4"
-              >
-                <h3>DHT22/DHT11 #3</h3>
-                <div
-                  class="box d-flex rounded-3 p-2 shadow align-items-center justify-content-center"
-                >
-                  <div class="right-side">
-                    <div class="box-topic">Temperature</div>
-                    <div class="number" id="temperature-3">35 C</div>
-                  </div>
-                  <span class="indicator material-symbols-outlined"
-                    >device_thermostat</span
-                  >
-                </div>
-                <div
-                  class="box d-flex align-items-center justify-content-center rounded-3 p-1 shadow"
-                >
-                  <div class="right-side">
-                    <div class="box-topic">Humidity</div>
-                    <div class="number" id="humidity-3">40%</div>
-                  </div>
-                  <span class="indicator material-symbols-outlined">
-                    humidity_percentage
-                  </span>
-                </div>
-              </div>
-            </div>
+            {%endfor%}
           </div>
           <div class="row mt-2">
             <div class="col">
               <ul class="nav nav-tabs" id="myTab" role="tablist">
+                {%for dht in dht_modules%}
                 <li class="nav-item" role="presentation">
                   <button
-                    class="nav-link active"
-                    id="home-tab"
+                    class="nav-link {% if loop.index == 1 %}active{%endif%}"
+                    id="dht-tab-{{dht.get_id()}}"
                     data-bs-toggle="tab"
-                    data-bs-target="#home"
-                    data-tab-number="1"
+                    data-bs-target="#dht-{{dht.get_id()}}"
+                    data-tab-number="{{loop.index}}"
                     type="button"
                     role="tab"
-                    aria-controls="home"
+                    aria-controls="dht-{{dht.get_id()}}"
                     aria-selected="true"
                   >
-                    DHT #1
+                    DHT #{{dht.get_id()}}
                   </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link"
-                    id="profile-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#profile"
-                    data-tab-number="2"
-                    type="button"
-                    role="tab"
-                    aria-controls="profile"
-                    aria-selected="false"
-                  >
-                    DHT #2
-                  </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link"
-                    id="messages-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#messages"
-                    data-tab-number="3"
-                    type="button"
-                    role="tab"
-                    aria-controls="messages"
-                    aria-selected="false"
-                  >
-                    DHT #3
-                  </button>
-                </li>
+                {%endfor%}
               </ul>
-              <!-- Tab panes -->
               <div class="tab-content">
+                {%for dht in dht_modules%}
+
                 <div
-                  class="tab-pane active"
-                  id="home"
+                  class="tab-pane {% if loop.index == 1 %}active{%endif%}"
+                  id="dht-{{dht.get_id()}}"
                   role="tabpanel"
-                  aria-labelledby="home-tab"
-                  tabindex="0"
+                  aria-labelledby="dht-tab-{{dht.get_id()}}"
+                  tabindex="{{loop.index}}"
                 >
                   <div
                     class="graphs d-flex flex-wrap bg-white justify-content-evenly p-5"
                   >
                     <div class="history-divs">
-                      <div id="temperature-history-1"></div>
+                      <div id="temperature-history-{{dht.get_id()}}"></div>
                     </div>
                     <div class="historical-charts">
                       <div class="history-divs">
-                        <div id="humidity-history-1"></div>
+                        <div id="humidity-history-{{dht.get_id()}}"></div>
                       </div>
                     </div>
                     <div class="d-flex flex-column gauge-charts">
                       <div class="">
-                        <div id="temperature-gauge-1"></div>
+                        <div id="temperature-gauge-{{dht.get_id()}}"></div>
                       </div>
                       <div class="">
-                        <div id="humidity-gauge-1"></div>
+                        <div id="humidity-gauge-{{dht.get_id()}}"></div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div
-                  class="tab-pane"
-                  id="profile"
-                  role="tabpanel"
-                  aria-labelledby="profile-tab"
-                  tabindex="0"
-                >
-                  <div
-                    class="graphs d-flex flex-wrap bg-white justify-content-evenly p-5"
-                  >
-                    <div class="history-divs">
-                      <div id="temperature-history-2"></div>
-                    </div>
-                    <div class="historical-charts">
-                      <div class="history-divs">
-                        <div id="humidity-history-2"></div>
-                      </div>
-                    </div>
-                    <div class="d-flex flex-column gauge-charts">
-                      <div class="">
-                        <div id="temperature-gauge-2"></div>
-                      </div>
-                      <div class="">
-                        <div id="humidity-gauge-2"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="tab-pane"
-                  id="messages"
-                  role="tabpanel"
-                  aria-labelledby="messages-tab"
-                  tabindex="0"
-                >
-                  <div
-                    class="graphs d-flex flex-wrap bg-white justify-content-evenly p-5"
-                  >
-                    <div class="history-divs">
-                      <div id="temperature-history-3"></div>
-                    </div>
-                    <div class="historical-charts">
-                      <div class="history-divs">
-                        <div id="humidity-history-3"></div>
-                      </div>
-                    </div>
-                    <div class="d-flex flex-column gauge-charts">
-                      <div class="">
-                        <div id="temperature-gauge-3"></div>
-                      </div>
-                      <div class="">
-                        <div id="humidity-gauge-3"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {%endfor%}
               </div>
             </div>
           </div>
@@ -327,5 +192,11 @@
       crossorigin="anonymous"
     ></script>
     <script type="text/javascript" src="../static/index.js"></script>
+    <input
+      id="dhtCount"
+      type="text"
+      type="hidden"
+      value="{{'0' if dht_modules == None else dht_modules|length}}"
+    />
   </body>
 </html>

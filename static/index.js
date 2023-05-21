@@ -10,17 +10,18 @@ let MAX_GRAPH_POINTS = 12;
 let ctr = 0;
 
 var currentTab = 1;
-const NUMBER_OF_SENSORS = 3;
+var numberOfDHTSensor = 3;
 const TEMPERATURE_CHART_DIV = 0;
 const HUMIDITY_CHART_DIV = 1;
 
 window.addEventListener("load", (event) => {
   console.log("Page is ready!");
+  numberOfDHTSensor = parseInt(document.querySelector("#dhtCount").value);
   drawCharts();
 });
 
 function drawCharts() {
-  for (let index = 1; index <= NUMBER_OF_SENSORS; index++) {
+  for (let index = 1; index <= numberOfDHTSensor; index++) {
     let temperatureHistoryDiv = document.getElementById(
       `temperature-history-${index}`
     );
@@ -51,7 +52,7 @@ function drawCharts() {
 }
 
 function resetCharts() {
-  for (let index = 1; index <= NUMBER_OF_SENSORS; index++) {
+  for (let index = 1; index <= numberOfDHTSensor; index++) {
     let temperatureHistoryDiv = document.getElementById(
       `temperature-history-${index}`
     );
