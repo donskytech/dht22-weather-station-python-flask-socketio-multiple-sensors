@@ -11,8 +11,8 @@ class DHT22Module:
         return self.id
 
     def get_sensor_readings(self):
-        # try reading the DHT sensor 5 times
-        for _ in range(5):
+        # try reading the DHT sensor 2 times
+        for _ in range(2):
             try:
                 # Print the values to the serial port
                 temperature_c = self.dht_device.temperature
