@@ -27,7 +27,7 @@ Background Thread
 def background_thread():
     while True:
         for dht in dht_modules:
-            # DHT 1
+            # Scan through all DHT sensor connected to our raspberry pi
             temperature, humidity = dht.get_sensor_readings() or (None, None)
             if temperature is not None or humidity is not None:
                 sensor_readings = {
@@ -37,26 +37,6 @@ def background_thread():
                 }
                 socketio.emit("updateSensorData", json.dumps(sensor_readings))
                 socketio.sleep(1)
-        # # DHT2
-        # temperature, humidity = dht22_module_2.get_sensor_readings() or (None, None)
-        # if temperature is not None or humidity is not None:
-        #     sensor_readings = {
-        #         "id": dht22_module_2.get_id(),
-        #         "temperature": temperature,
-        #         "humidity": humidity,
-        #     }
-        #     socketio.emit("updateSensorData", json.dumps(sensor_readings))
-        #     socketio.sleep(1)
-        # # DHT3
-        # temperature, humidity = dht22_module_3.get_sensor_readings() or (None, None)
-        # if temperature is not None or humidity is not None:
-        #     sensor_readings = {
-        #         "id": dht22_module_3.get_id(),
-        #         "temperature": temperature,
-        #         "humidity": humidity,
-        #     }
-        #     socketio.emit("updateSensorData", json.dumps(sensor_readings))
-        #     socketio.sleep(1)
 
 
 """
