@@ -32,7 +32,7 @@ flask run --host=0.0.0.0
 http://<IP>:5000
 ```
 ### How to add multiple DHT22/DHT11 sensors
-1. Edit your app.py and add the new variables like the below code
+Edit your app.py and add the new variables like the below code
   
 ```
 dht22_module_1 = DHT22Module(1, board.D2)
@@ -44,5 +44,5 @@ dht22_module_6 = DHT22Module(3, board.D22)
 
 dht_modules = [dht22_module_1, dht22_module_2, dht22_module_3, dht22_module_4, dht22_module_5, dht22_module_6]
 ```
-  
-
+This would add 3 more additional sensor on your web application  
+![Raspberry Pi Weather Station - Multiple Additional Sensors](https://github.com/donskytech/dht22-weather-station-python-flask-socketio-multiple-sensors/assets/69466026/178dd7b6-92c0-4bf7-b08b-d8e92d8490f0)
