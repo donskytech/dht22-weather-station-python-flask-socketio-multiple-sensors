@@ -10,8 +10,8 @@ A DHT22/DHT11 Weather Station project using Python, Flask, Flask-SocketIO, and B
 ## Steps on how to run on Raspberry Pi
 1. Clone the repository
 ```
-git clone https://github.com/donskytech/dht22-weather-station-python-flask-socketio.git
-cd dht22-weather-station-python-flask-socketio
+git clone https://github.com/donskytech/dht22-weather-station-python-flask-socketio-multiple-sensors
+cd dht22-weather-station-python-flask-socketio-multiple-sensors
 ```
 2. Create a Python virtual environment
 ```
